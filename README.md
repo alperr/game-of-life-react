@@ -1,3 +1,9 @@
+# Game of Life
+This repository contains a reactjs/HTML5Canvas implementation of 
+[game of life](http://codingdojo.org/kata/GameOfLife/)
+
+[Here is a working demo](https://alpercinar.com/game-of-life)
+
 ## Available Scripts
 
 In the project directory, you can run:
