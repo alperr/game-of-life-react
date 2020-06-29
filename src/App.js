@@ -101,6 +101,14 @@ function App() {
                         value={height}
                         placeholder="height">
                     </Input>
+                    <a 
+                        className="float-right"
+                        href="https://github.com/alperr/game-of-life-react">
+                        <Button outline color="primary" size="sm">Source Code | Github</Button>
+                    </a>
+                    <span>
+
+                    </span>
                 </div>
             </div>
             <div className="row mt-2">
