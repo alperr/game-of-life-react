@@ -83,11 +83,11 @@ class GameOfLife {
             return true;
 
         // first column of game area
-        if(cellIndex % this.height === 0)
+        if(cellIndex % this.width === 0)
             return true;
 
         // last column of game area
-        if(cellIndex % this.height === this.width - 1)
+        if(cellIndex % this.width === this.width - 1)
             return true;
 
         return false;
