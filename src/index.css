@@ -1,0 +1,8 @@
+/* application level CSS rules are written here */
+body{
+    background: #f3f3f3;
+}
+
+.small-input{
+    width: 80px;
+}
