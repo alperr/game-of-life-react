@@ -8,19 +8,27 @@ function App() {
     const DEFAULT_WIDTH = 250;
     const DEFAULT_HEIGHT = 120;
 
-    let game, renderer;
     let canvasRef = useRef(null);
+    let [game, setGame] = useState();
+    let [renderer, setRenderer] = useState();
+    let [generation, setGeneration] = useState(0);
+    let [deadCount, setDeadCount] = useState(DEFAULT_WIDTH * DEFAULT_HEIGHT);
+    let [aliveCount, setAliveCount] = useState(0);
     let [width, setWidth] = useState(DEFAULT_WIDTH);
     let [height, setHeight] = useState(DEFAULT_HEIGHT);
 
     function generateNewBoard() {
-        let canvas = canvasRef.current; 
-        game = new GameOfLife(width, height);
-        renderer = new Canvas(canvas, width, height, onCanvasClick, game);
+        let canvasElement = canvasRef.current;
+        let game = new GameOfLife(width, height);
+        let renderer = new Canvas(canvasElement, width, height, game);
+        setGame(game);
+        setRenderer(renderer);
+        setState(game.getState());
     }
 
     function clear() {
-        game.resetState();
+        let state = game.resetState()
+        setState(state);
         renderer.forceRender(game.currentState);
     }
 
@@ -30,16 +38,26 @@ function App() {
             let y = Math.floor(Math.random() * height);
             game.addAliveCell(x, y);
         }
+        setState(game.getState());
         renderer.forceRender(game.currentState);
     }
 
     function iterate() {
         let state = game.iterate();
+        setState(state);
         renderer.render(state.data, state.renderFlags);
     }
 
-    function onCanvasClick(x, y) {
+    function setState(state) {
+        setGeneration(state.generation);
+        setDeadCount(state.deadCount);
+        setAliveCount(state.aliveCount);
+    }
+
+    function onCanvasClick(e) {
+        let [x, y] = renderer.projectClickPosition(e.nativeEvent)
         game.addAliveCell(x, y);
+        setState(game.getState());
         renderer.forceRender(game.currentState);
     }
 
@@ -87,7 +105,7 @@ function App() {
             </div>
             <div className="row mt-2">
                 <div className="col">
-                    <canvas ref={canvasRef}></canvas>
+                    <canvas ref={canvasRef} onClick={onCanvasClick}></canvas>
                 </div>
             </div>
             <div className="row">
@@ -122,6 +140,19 @@ function App() {
                     onClick={clear}>
                     Clear Canvas
                 </Button>
+            </div>
+            <div className="d-flex justify-content-center mt-3">
+                <small>
+                    <span className="mx-3">
+                        Generation <b>{generation}</b>
+                    </span>
+                    <span className="mx-3">
+                        Alive Cells <b>{aliveCount}</b>
+                    </span>
+                    <span className="mx-3">
+                        Dead Cells <b>{deadCount}</b>
+                    </span>
+                </small>
             </div>
         </div>
     );

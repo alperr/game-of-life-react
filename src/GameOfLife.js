@@ -58,6 +58,9 @@ class GameOfLife {
         return {
             "data": this.currentState,
             "renderFlags": this.shouldRender,
+            "generation": this.turnCount,
+            "deadCount": this.deadCount,
+            "aliveCount": this.aliveCount
         }
     }
 
@@ -68,9 +71,22 @@ class GameOfLife {
         this.currentState[index] = true;
     }
 
+    getState() {
+        this.deadCount = this.cellCount - this.aliveCount;
+        return {
+            "generation": this.turnCount,
+            "deadCount": this.deadCount,
+            "aliveCount": this.aliveCount
+        }
+    }
+
     resetState() {
         for (let i=0;i<this.currentState.length;i++)
             this.currentState[i] = 0;
+
+        this.turnCount = 0;
+        this.aliveCount = 0;
+        return this.getState();
     }
 
     isAnEdgeCell(cellIndex) {

@@ -1,7 +1,7 @@
 // this is a 2D grid drawing class that utilizes HTML5 Canvas
 class Canvas {
 
-    constructor(canvas, width, height, clickHandler, gameManager) {
+    constructor(canvas, width, height, gameManager) {
         this.pixelSize = 3; // every cell is scaled by this factor
         this.gameManager = gameManager;
         this.canvas = canvas;
@@ -9,8 +9,6 @@ class Canvas {
         this.canvas.style.background = "#f2f2f2";
         this.canvas.width = width * this.pixelSize;
         this.canvas.height = height * this.pixelSize;
-        this.canvas.onclick = (e)=>{this.onClick(e)};
-        this.clickHandler = clickHandler;
         this.context = this.canvas.getContext("2d");
     }
 
@@ -44,7 +42,7 @@ class Canvas {
         this.context.fillRect(x * size, y * size, size, size);
     }
 
-    onClick(e) {
+    projectClickPosition(e) {
 
         // first cumulative offset of canvas element is found
         // then that offset is substracted from mouse position 
@@ -65,7 +63,8 @@ class Canvas {
 
         x = Math.floor(x / this.pixelSize);
         y = Math.floor(y / this.pixelSize);
-        this.clickHandler(x, y);
+
+        return [x, y];
     }
 
 }
